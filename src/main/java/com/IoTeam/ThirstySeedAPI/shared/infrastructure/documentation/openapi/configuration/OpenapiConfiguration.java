@@ -1,7 +1,7 @@
 package com.IoTeam.ThirstySeedAPI.shared.infrastructure.documentation.openapi.configuration;
 
 
-//import io.swagger.v3.oas.models.Components;
+// import io.swagger.v3.oas.models.Components;
 //import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
