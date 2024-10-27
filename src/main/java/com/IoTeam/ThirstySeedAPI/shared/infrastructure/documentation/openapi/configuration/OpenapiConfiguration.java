@@ -1,16 +1,15 @@
 package com.IoTeam.ThirstySeedAPI.shared.infrastructure.documentation.openapi.configuration;
 
 
-// import io.swagger.v3.oas.models.Components;
-//import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.Components;
+
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-//import io.swagger.v3.oas.models.security.SecurityRequirement;
-//import io.swagger.v3.oas.models.security.SecurityScheme;
-//import io.swagger.v3.oas.models.security.SecurityRequirement;
-//import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +18,7 @@ public class OpenapiConfiguration {
     @Bean
 
     public OpenAPI arquimentorPlatformOpenApi() {
-        //final String securitySchemeName = "bearerAuth";
+        final String securitySchemeName = "bearerAuth";
 
         var openApi = new OpenAPI();
         openApi
@@ -32,7 +31,7 @@ public class OpenapiConfiguration {
                         .description("ThirstySeed Platform Wiki Documentation")
                         .url("https://thirstyseed-platform.wiki.github.io/docs"));
 
-        /*openApi
+        openApi
                 .addSecurityItem(new SecurityRequirement()
                         .addList(securitySchemeName))
                 .components(new Components()
@@ -41,7 +40,8 @@ public class OpenapiConfiguration {
                                         .name(securitySchemeName)
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
-                                        .bearerFormat("JWT")));*/
+                                        .bearerFormat("JWT")));
         return openApi;
     }
+
 }
