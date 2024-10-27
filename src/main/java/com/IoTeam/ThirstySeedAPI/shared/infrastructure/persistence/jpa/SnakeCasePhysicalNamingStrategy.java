@@ -1,4 +1,4 @@
-package com.platform.tutorgo.shared.infrastructure.persistence.jpa;
+package com.IoTeam.ThirstySeedAPI.shared.infrastructure.persistence.jpa;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

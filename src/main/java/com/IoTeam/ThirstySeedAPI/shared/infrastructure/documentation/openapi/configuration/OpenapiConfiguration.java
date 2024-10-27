@@ -1,13 +1,16 @@
-package com.platform.tutorgo.shared.infrastructure.documentation.openapi.configuration;
+package com.IoTeam.ThirstySeedAPI.shared.infrastructure.documentation.openapi.configuration;
 
 
-import io.swagger.v3.oas.models.Components;
+//import io.swagger.v3.oas.models.Components;
+//import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+//import io.swagger.v3.oas.models.security.SecurityRequirement;
+//import io.swagger.v3.oas.models.security.SecurityScheme;
+//import io.swagger.v3.oas.models.security.SecurityRequirement;
+//import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,20 +19,20 @@ public class OpenapiConfiguration {
     @Bean
 
     public OpenAPI arquimentorPlatformOpenApi() {
-        final String securitySchemeName = "bearerAuth";
+        //final String securitySchemeName = "bearerAuth";
 
         var openApi = new OpenAPI();
         openApi
                 .info(new Info()
-                        .title("TutorGo Platform API")
-                        .description("TutorGo Platform application REST API documentation.")
+                        .title("ThirstySeed Platform API")
+                        .description("ThirstySeed Platform application REST API documentation.")
                         .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("https://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("TutorGo Platform Wiki Documentation")
-                        .url("https://tutorgo-platform.wiki.github.io/docs"));
+                        .description("ThirstySeed Platform Wiki Documentation")
+                        .url("https://thirstyseed-platform.wiki.github.io/docs"));
 
-        openApi
+        /*openApi
                 .addSecurityItem(new SecurityRequirement()
                         .addList(securitySchemeName))
                 .components(new Components()
@@ -38,7 +41,7 @@ public class OpenapiConfiguration {
                                         .name(securitySchemeName)
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
-                                        .bearerFormat("JWT")));
+                                        .bearerFormat("JWT")));*/
         return openApi;
     }
 }

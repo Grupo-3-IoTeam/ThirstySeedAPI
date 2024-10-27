@@ -1,4 +1,4 @@
-package com.platform.tutorgo.shared.domain.model.entities;
+package com.IoTeam.ThirstySeedAPI.shared.domain.model.entities;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
