@@ -5,7 +5,6 @@ import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.CreatePlotComm
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.NotSupplyPlotCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.SupplyPlotCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
-import com.IoTeam.ThirstySeedAPI.irrigation.plot.domain.model.valueobjects.*;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.commands.PlotCommandService;
 import com.IoTeam.ThirstySeedAPI.irrigation.infrastructure.persistence.jpa.repositories.PlotRepository;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
-import com.IoTeam.ThirstySeedAPI.irrigation.plot.domain.model.valueobjects.*;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -67,16 +66,12 @@ public class Plot extends AbstractAggregateRoot<Plot> {
         this.imageUrl = imageUrl;
     }
 
-
-    public Plot() {
-
-    }
+    public Plot() {}
     public void supply() {
         this.plotStatus = PlotStatus.SUPPLIED;
     }
     public void not_supply() {
         this.plotStatus = PlotStatus.NOT_SUPPLIED;
     }
-
 
 }
