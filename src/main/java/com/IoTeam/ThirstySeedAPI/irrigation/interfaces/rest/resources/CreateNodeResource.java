@@ -1,4 +1,4 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources;
 
 public record CreateNodeResource(
         Long plotId,

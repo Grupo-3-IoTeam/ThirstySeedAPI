@@ -1,7 +1,7 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Plot;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.PlotResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.PlotResource;
 
 public class PlotResourceFromEntityAssembler {
     public static PlotResource toResourceFromEntity(Plot entity){

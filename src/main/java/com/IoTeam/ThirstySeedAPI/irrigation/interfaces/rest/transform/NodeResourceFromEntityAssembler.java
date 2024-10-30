@@ -1,7 +1,7 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Node;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.NodeResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.NodeResource;
 
 public class NodeResourceFromEntityAssembler {
     public static NodeResource toResourceFromEntity(Node entity){

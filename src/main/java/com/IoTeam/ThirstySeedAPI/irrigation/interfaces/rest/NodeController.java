@@ -1,13 +1,13 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices.NodeCommandServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.NodeQueryServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByPlotIdQuery;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.CreateNodeResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.NodeResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform.CreateNodeCommandFromResourceAssembler;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform.NodeResourceFromEntityAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateNodeResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.NodeResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.CreateNodeCommandFromResourceAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.NodeResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
