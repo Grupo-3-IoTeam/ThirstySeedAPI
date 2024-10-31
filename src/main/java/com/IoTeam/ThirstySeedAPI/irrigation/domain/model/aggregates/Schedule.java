@@ -50,27 +50,28 @@ public class Schedule extends AbstractAggregateRoot<Schedule> {
     @Setter
     private SprinklerAngle angle;
 
+    @Embedded
     @Setter
-    private boolean isAutomatic;
+    private IsAutomatic isAutomatic;
 
     public Schedule() {
-        this.waterAmount = new WaterAmount(0, "litros");
-        this.pressure = new Pressure(0, "PSI");
-        this.sprinklerRadius = new SprinklerRadius(0, "m");
-        this.expectedMoisture = new MoistureLevel(0);
-        this.estimatedTime = new IrrigationDuration(0);
-        this.setTime = new IrrigationTime("00:00");
-        this.angle = new SprinklerAngle(0);
-        this.isAutomatic = false;
+        this.waterAmount = new WaterAmount(1);
+        this.pressure = new Pressure(1);
+        this.sprinklerRadius = new SprinklerRadius(1);
+        this.expectedMoisture = new MoistureLevel(1);
+        this.estimatedTime = new IrrigationDuration(1);
+        this.setTime = new IrrigationTime("12:00 AM");
+        this.angle = new SprinklerAngle(1);
+        this.isAutomatic = new IsAutomatic(true);
     }
 
-    public Schedule(Plot plot, WaterAmount waterAmount, Pressure pressure, SprinklerRadius sprinklerRadius,
+    public Schedule(Plot plot, WaterAmount waterAmount, Pressure pressureValue, SprinklerRadius sprinklerRadius,
                     MoistureLevel expectedMoisture, IrrigationDuration estimatedTime, IrrigationTime setTime,
-                    SprinklerAngle angle, boolean isAutomatic) {
+                    SprinklerAngle angle, IsAutomatic isAutomatic) {
         this();
         this.plot = plot;
         this.waterAmount = waterAmount;
-        this.pressure = pressure;
+        this.pressure = pressureValue;
         this.sprinklerRadius = sprinklerRadius;
         this.expectedMoisture = expectedMoisture;
         this.estimatedTime = estimatedTime;
@@ -83,20 +84,20 @@ public class Schedule extends AbstractAggregateRoot<Schedule> {
     public Schedule(Plot plot, CreateScheduleCommand command) {
         this(
                 plot,
-                new WaterAmount(command.waterAmount(), "litros"),
-                new Pressure(command.pressure(), "PSI"),
-                new SprinklerRadius(command.sprinklerRadius(), "m"),
+                new WaterAmount(command.waterAmount()),
+                new Pressure(command.pressure()),
+                new SprinklerRadius(command.sprinklerRadius()),
                 new MoistureLevel(command.expectedMoisture()),
                 new IrrigationDuration(command.estimatedTimeHours()),
                 new IrrigationTime(command.setTime()),
                 new SprinklerAngle(command.angle()),
-                command.isAutomatic()
+                new IsAutomatic(command.isAutomatic())
         );
     }
 
     public Schedule updateDetails(WaterAmount waterAmount, Pressure pressure, SprinklerRadius sprinklerRadius,
                                   MoistureLevel expectedMoisture, IrrigationDuration estimatedTime,
-                                  IrrigationTime setTime, SprinklerAngle angle, boolean isAutomatic) {
+                                  IrrigationTime setTime, SprinklerAngle angle, IsAutomatic isAutomatic) {
         this.waterAmount = waterAmount;
         this.pressure = pressure;
         this.sprinklerRadius = sprinklerRadius;

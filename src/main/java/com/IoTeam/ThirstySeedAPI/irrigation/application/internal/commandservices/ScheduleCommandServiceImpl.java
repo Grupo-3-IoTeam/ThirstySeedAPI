@@ -55,14 +55,14 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
         try {
             var updatedSchedule = scheduleRepository.save(
                     scheduleToUpdate.updateDetails(
-                            new WaterAmount(command.waterAmount(), "litros"),
-                            new Pressure(command.pressure(), "PSI"),
-                            new SprinklerRadius(command.sprinklerRadius(), "m"),
+                            new WaterAmount(command.waterAmount()),
+                            new Pressure(command.pressure()),
+                            new SprinklerRadius(command.sprinklerRadius()),
                             new MoistureLevel(command.expectedMoisture()),
                             new IrrigationDuration(command.estimatedTimeHours()),
                             new IrrigationTime(command.setTime()),
                             new SprinklerAngle(command.angle()),
-                            command.isAutomatic()
+                            new IsAutomatic(command.isAutomatic())
                     )
             );
             return Optional.of(updatedSchedule);
