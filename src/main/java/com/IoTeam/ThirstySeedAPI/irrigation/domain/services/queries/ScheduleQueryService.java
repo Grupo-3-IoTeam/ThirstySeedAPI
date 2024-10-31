@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleQueryService {
-    Optional<Schedule> findScheduleById(GetScheduleByIdQuery query);
-    List<Schedule> findAllSchedules(GetAllSchedulesQuery query);
+    Optional<Schedule> handle(GetScheduleByIdQuery query);
+    List<Schedule> handle(GetAllSchedulesQuery query);
 }

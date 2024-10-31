@@ -6,6 +6,5 @@ public record CreatePlotCommand(
         Integer extension,
         Integer size,
         String imageUrl
-
 ) {
 }
