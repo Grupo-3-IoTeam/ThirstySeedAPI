@@ -1,8 +1,8 @@
 package com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects;
 
-public record Pressure(double value, String unit) {
+public record Pressure(double pressureValue) {
     public Pressure {
-        if (value <= 0) {
+        if (pressureValue <= 0) {
             throw new IllegalArgumentException("La presión debe ser mayor a cero.");
         }
     }
@@ -12,11 +12,11 @@ public record Pressure(double value, String unit) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pressure pressure = (Pressure) o;
-        return Double.compare(pressure.value, value) == 0 && unit.equals(pressure.unit);
+        return Double.compare(pressure.pressureValue, pressureValue) == 0;
     }
 
     @Override
     public String toString() {
-        return value + " " + unit;
+        return pressureValue + " PSI";
     }
 }
