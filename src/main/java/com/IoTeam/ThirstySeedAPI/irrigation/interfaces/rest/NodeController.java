@@ -6,8 +6,10 @@ import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByIdQuer
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByPlotIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateNodeResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.NodeResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.UpdateNodeMoistureResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.CreateNodeCommandFromResourceAssembler;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.NodeResourceFromEntityAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.UpdateNodeMoistureCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -77,6 +79,16 @@ public class NodeController {
         var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
         return ResponseEntity.ok(nodeResource);
     }
-
+    @PutMapping("/{nodeId}/moisture")
+    public ResponseEntity<Void> updateNodeMoisture(@PathVariable Long nodeId, @RequestBody UpdateNodeMoistureResource resource) {
+        try {
+            var updateNodeMoistureCommand = UpdateNodeMoistureCommandFromResourceAssembler.toCommand(nodeId, resource);
+            nodeCommandServiceImpl.updateNodeMoisture(updateNodeMoistureCommand);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }
