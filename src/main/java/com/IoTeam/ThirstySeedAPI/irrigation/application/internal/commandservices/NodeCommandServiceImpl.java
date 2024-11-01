@@ -2,6 +2,7 @@ package com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservice
 
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Node;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.CreateNodeCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.UpdateNodeMoistureCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.commands.NodeCommandService;
 import com.IoTeam.ThirstySeedAPI.irrigation.infrastructure.persistence.jpa.repositories.NodeRepository;
@@ -45,5 +46,15 @@ public class NodeCommandServiceImpl implements NodeCommandService {
 
         nodeRepository.save(node);
         return node.getId();
+    }
+    @Override
+    public void updateNodeMoisture(UpdateNodeMoistureCommand command) {
+        var nodeOptional = nodeRepository.findById(command.nodeId());
+        if (nodeOptional.isEmpty()) {
+            throw new IllegalArgumentException("Node with ID " + command.nodeId() + " does not exist.");
+        }
+        Node node = nodeOptional.get();
+        node.setMoisture(new Moisture(command.moisture()));
+        nodeRepository.save(node);
     }
 }
