@@ -1,14 +1,14 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices.PlotCommandServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.PlotQueryServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.NotSupplyPlotCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.SupplyPlotCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetPlotByIdQuery;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.CreatePlotResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources.PlotResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform.CreatePlotCommandFromResourceAssembler;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.transform.PlotResourceFromEntityAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreatePlotResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.PlotResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.CreatePlotCommandFromResourceAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.PlotResourceFromEntityAssembler;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.resources;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources;
 
 import java.util.Date;
 
