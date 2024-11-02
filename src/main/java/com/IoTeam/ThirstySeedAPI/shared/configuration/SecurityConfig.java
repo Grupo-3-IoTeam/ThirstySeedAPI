@@ -24,6 +24,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/plot/**").permitAll()
                         .requestMatchers("/api/v1/node/**").permitAll()
+                        .requestMatchers("/api/v1/schedules/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(customizer -> customizer.disable())
