@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface NodeQueryService {
     Optional<Node> findNodeById(GetNodeByIdQuery query);
-    Optional<Node> findNodeByPlotId(GetNodeByPlotIdQuery query);
-    Optional<Node> findNodeByProductCode(GetNodeByProductCodeQuery query);
+    List<Node> findNodeByPlotId(GetNodeByPlotIdQuery query);
+    Optional<Node> findNodeByProductcode(GetNodeByProductCodeQuery query);
     List<Node> findAllNodes();
 }

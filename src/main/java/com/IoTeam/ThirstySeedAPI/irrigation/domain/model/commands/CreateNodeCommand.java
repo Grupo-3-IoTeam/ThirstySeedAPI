@@ -6,7 +6,7 @@ public record CreateNodeCommand(
         Integer moisture,
         String indicator,
         Boolean  isActive,
-        String productCode
+        String productcode
 
 ) {
 }
