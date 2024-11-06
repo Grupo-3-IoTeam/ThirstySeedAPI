@@ -56,8 +56,12 @@ public class Node extends AbstractAggregateRoot<Node> {
     @Setter
     private IsActive isActive;
 
+    @Embedded
+    @Getter
+    @Setter
+    private Productcode productcode;
 
-    public Node(Plot plot, NodeLocation nodelocation, Moisture moisture, Indicator indicator, Status status, StatusClass statusClass, IconClass iconClass, IsActive isActive) {
+    public Node(Plot plot, NodeLocation nodelocation, Moisture moisture, Indicator indicator, Status status, StatusClass statusClass, IconClass iconClass, IsActive isActive, Productcode productcode) {
         this.plot = plot;
         this.nodelocation = nodelocation;
         this.moisture = moisture;
@@ -66,6 +70,7 @@ public class Node extends AbstractAggregateRoot<Node> {
         this.statusClass = statusClass;
         this.iconClass = iconClass;
         this.isActive = isActive;
+        this.productcode = productcode;
     }
 
 
