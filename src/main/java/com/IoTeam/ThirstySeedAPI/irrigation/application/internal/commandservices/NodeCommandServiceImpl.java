@@ -41,7 +41,8 @@ public class NodeCommandServiceImpl implements NodeCommandService {
                 new Status("Correct"),
                 new StatusClass("status-correct"),
                 new IconClass("pi pi-check"),
-                new IsActive(command.isActive())
+                new IsActive(command.isActive()),
+                new Productcode(command.productCode())
         );
 
         nodeRepository.save(node);
