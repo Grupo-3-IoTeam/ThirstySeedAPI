@@ -8,14 +8,14 @@ public class NodeResourceFromEntityAssembler {
         return new NodeResource(
                 entity.getId(),
                 entity.getPlot().getId(),
-                entity.getNodelocation().nodelocation(),  // Access NodeLocation field
-                entity.getMoisture().moisture(),          // Access Moisture field
-                entity.getIndicator().indicator(),        // Access Indicator field
-                entity.getStatus().status(),              // Access Status field if included
-                entity.getStatusClass().statusClass(),    // Access StatusClass field if included
-                entity.getIconClass().iconClass(),        // Access IconClass field if included
-                entity.getIsActive().value()
-
+                entity.getNodelocation().nodelocation(),
+                entity.getMoisture().moisture(),
+                entity.getIndicator().indicator(),
+                entity.getStatus().status(),
+                entity.getStatusClass().statusClass(),
+                entity.getIconClass().iconClass(),
+                entity.getIsActive().value(),
+                entity.getProductcode().productcode()
         );
     }
 }

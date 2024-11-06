@@ -5,7 +5,8 @@ public record CreateNodeResource(
         String nodelocation,
         Integer moisture,
         String indicator,
-        Boolean isActive
+        Boolean isActive,
+        String productcode
 
 ) {
 }
