@@ -31,16 +31,18 @@ public class NodeCommandServiceImpl implements NodeCommandService {
         }
 
         Plot plot = optionalPlot.get();
-
+        String status = command.moisture() > 20 ? "Correct" : "Error";
+        String statusClass = status.equals("Correct") ? "status-correct" : "status-error";
+        String iconClass = status.equals("Correct") ? "pi pi-check" : "pi pi-exclamation-triangle";
 
         Node node = new Node(
                 plot,
                 new NodeLocation(command.nodelocation()),
                 new Moisture(command.moisture()),
                 new Indicator(command.indicator()),
-                new Status("Correct"),
-                new StatusClass("status-correct"),
-                new IconClass("pi pi-check"),
+                new Status(status),
+                new StatusClass(statusClass),
+                new IconClass(iconClass),
                 new IsActive(command.isActive()),
                 new Productcode(command.productcode())
         );
