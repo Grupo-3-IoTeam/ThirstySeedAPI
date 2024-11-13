@@ -4,6 +4,7 @@ import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.NodeQueryServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByPlotIdQuery;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByProductCodeQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateNodeResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.NodeResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.UpdateNodeMoistureResource;
@@ -72,13 +73,18 @@ public class NodeController {
         return ResponseEntity.ok(nodeResources);
     }
     @GetMapping("/plot/{plotId}")
-    public ResponseEntity<NodeResource> getNodeByPlotId(@PathVariable Long plotId) {
+    public ResponseEntity<List<NodeResource>> getNodeByPlotId(@PathVariable Long plotId) {
         var getNodeByPlotIdQuery = new GetNodeByPlotIdQuery(plotId);
-        var node = nodeQueryServiceImpl.findNodeByPlotId(getNodeByPlotIdQuery);
-        if (node.isEmpty()) return ResponseEntity.badRequest().build();
-        var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
-        return ResponseEntity.ok(nodeResource);
+        var nodes = nodeQueryServiceImpl.findNodeByPlotId(getNodeByPlotIdQuery);
+        if (nodes.isEmpty()) return ResponseEntity.noContent().build();
+
+        List<NodeResource> nodeResources = nodes.stream()
+                .map(NodeResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(nodeResources);
     }
+
     @PutMapping("/{nodeId}/moisture")
     public ResponseEntity<Void> updateNodeMoisture(@PathVariable Long nodeId, @RequestBody UpdateNodeMoistureResource resource) {
         try {
@@ -90,5 +96,12 @@ public class NodeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+    @GetMapping("/productcode/{productcode}")
+    public ResponseEntity<NodeResource> getNodeByProductCodeQuery(@PathVariable String productcode) {
+        var getNodeByProductCodeQuery = new GetNodeByProductCodeQuery(productcode);
+        var node = nodeQueryServiceImpl.findNodeByProductcode(getNodeByProductCodeQuery);
+        if (node.isEmpty()) return ResponseEntity.badRequest().build();
+        var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
+        return ResponseEntity.ok(nodeResource);
+    }
 }

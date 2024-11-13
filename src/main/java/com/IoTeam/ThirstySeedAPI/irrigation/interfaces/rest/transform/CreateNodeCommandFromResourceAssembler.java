@@ -10,7 +10,8 @@ public class CreateNodeCommandFromResourceAssembler {
                 resource.nodelocation(),  // Pass NodeLocation as String
                 resource.moisture(),      // Pass Moisture as Integer
                 resource.indicator(),     // Pass Indicator as String
-                resource.isActive()
+                resource.isActive(),
+                resource.productcode()
         );
     }
 }
