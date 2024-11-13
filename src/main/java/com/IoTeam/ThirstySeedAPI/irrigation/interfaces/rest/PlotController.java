@@ -73,7 +73,7 @@ public class PlotController {
     }
 
 
-    @PutMapping("/{plotId}/supply")
+    @PutMapping("/{plotId}/stocks")
     public ResponseEntity<Void> supplyPlot(@PathVariable Long plotId) {
         try {
             plotCommandServiceImpl.updateToPlotSupply(new SupplyPlotCommand(plotId));
@@ -85,7 +85,7 @@ public class PlotController {
     }
 
 
-    @PutMapping("/{plotId}/not-supply")
+    @PutMapping("/{plotId}/outages")
     public ResponseEntity<Void> notSupplyPlot(@PathVariable Long plotId) {
         try {
             plotCommandServiceImpl.updateToPlotNotSupply(new NotSupplyPlotCommand(plotId));
