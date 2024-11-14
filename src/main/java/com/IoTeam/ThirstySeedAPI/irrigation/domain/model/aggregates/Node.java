@@ -73,11 +73,6 @@ public class Node extends AbstractAggregateRoot<Node> {
         this.productcode = productcode;
     }
 
-
     public Node() {
-
     }
-
-
-
 }
