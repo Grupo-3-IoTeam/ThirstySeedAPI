@@ -14,6 +14,4 @@ public record PlotResource(
         Date createdAt,
         Date updatedAt
 ) {
-
-
 }

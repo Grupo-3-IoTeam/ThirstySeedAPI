@@ -7,7 +7,7 @@ public class PlotResourceFromEntityAssembler {
     public static PlotResource toResourceFromEntity(Plot entity){
         return new PlotResource(
                 entity.getId(),
-                entity.getUserId(),
+                entity.getUser().getId(),
                 entity.getName().name(),
                 entity.getLocation().location(),
                 entity.getExtension().extension(),

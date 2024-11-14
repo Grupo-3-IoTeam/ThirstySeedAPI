@@ -23,6 +23,7 @@ public class Plot extends AbstractAggregateRoot<Plot> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Getter
     @Setter
     private User user;
 
@@ -80,9 +81,4 @@ public class Plot extends AbstractAggregateRoot<Plot> {
     public void not_supply() {
         this.plotStatus = PlotStatus.NOT_SUPPLIED;
     }
-    public Long getUserId() {
-        return user.getId();
-    }
-
-
 }
