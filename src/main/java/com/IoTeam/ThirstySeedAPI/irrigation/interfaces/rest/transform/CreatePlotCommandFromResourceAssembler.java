@@ -6,6 +6,7 @@ import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreatePlot
 public class CreatePlotCommandFromResourceAssembler {
     public static CreatePlotCommand toCommandFromResource(CreatePlotResource resource){
         return new CreatePlotCommand(
+                resource.userId(),
                 resource.name(),
                 resource.location(),
                 resource.extension(),

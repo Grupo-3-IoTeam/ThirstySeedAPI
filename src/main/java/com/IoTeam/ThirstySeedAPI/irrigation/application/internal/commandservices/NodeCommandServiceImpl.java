@@ -2,6 +2,8 @@ package com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservice
 
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Node;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.CreateNodeCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteNodeCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.UpdateNodeCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.UpdateNodeMoistureCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.commands.NodeCommandService;
@@ -31,17 +33,20 @@ public class NodeCommandServiceImpl implements NodeCommandService {
         }
 
         Plot plot = optionalPlot.get();
-
+        String status = command.moisture() > 20 ? "Correct" : "Error";
+        String statusClass = status.equals("Correct") ? "status-correct" : "status-error";
+        String iconClass = status.equals("Correct") ? "pi pi-check" : "pi pi-exclamation-triangle";
 
         Node node = new Node(
                 plot,
                 new NodeLocation(command.nodelocation()),
                 new Moisture(command.moisture()),
                 new Indicator(command.indicator()),
-                new Status("Correct"),
-                new StatusClass("status-correct"),
-                new IconClass("pi pi-check"),
-                new IsActive(command.isActive())
+                new Status(status),
+                new StatusClass(statusClass),
+                new IconClass(iconClass),
+                new IsActive(command.isActive()),
+                new Productcode(command.productcode())
         );
 
         nodeRepository.save(node);
@@ -49,12 +54,32 @@ public class NodeCommandServiceImpl implements NodeCommandService {
     }
     @Override
     public void updateNodeMoisture(UpdateNodeMoistureCommand command) {
+        var nodemoistureOptional = nodeRepository.findById(command.nodeId());
+        if (nodemoistureOptional.isEmpty()) {
+            throw new IllegalArgumentException("Node with ID " + command.nodeId() + " does not exist.");
+        }
+        Node node = nodemoistureOptional.get();
+        node.setMoisture(new Moisture(command.moisture()));
+        nodeRepository.save(node);
+    }
+    @Override
+    public void updateNode(UpdateNodeCommand command) {
         var nodeOptional = nodeRepository.findById(command.nodeId());
         if (nodeOptional.isEmpty()) {
             throw new IllegalArgumentException("Node with ID " + command.nodeId() + " does not exist.");
         }
+
         Node node = nodeOptional.get();
-        node.setMoisture(new Moisture(command.moisture()));
+        node.setNodelocation(new NodeLocation(command.nodelocation()));
+
+
         nodeRepository.save(node);
+    }
+    @Override
+    public void deleteNode(DeleteNodeCommand command) {
+        if (!nodeRepository.existsById(command.nodeId())) {
+            throw new IllegalArgumentException("Node with ID " + command.nodeId() + " does not exist.");
+        }
+        nodeRepository.deleteById(command.nodeId());
     }
 }
