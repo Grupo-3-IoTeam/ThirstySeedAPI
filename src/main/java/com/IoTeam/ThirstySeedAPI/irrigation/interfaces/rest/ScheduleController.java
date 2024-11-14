@@ -7,8 +7,10 @@ import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetAllSchedules
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetScheduleByIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateScheduleResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.ScheduleResource;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.UpdateScheduleResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.CreateScheduleCommandFromResourceAssembler;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.ScheduleResourceFromEntityAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.UpdateScheduleCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,6 +86,37 @@ public class ScheduleController {
             var deleteScheduleCommand = new DeleteScheduleCommand(scheduleId);
             scheduleCommandServiceImpl.handle(deleteScheduleCommand);
             return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleResource> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody UpdateScheduleResource resource) {
+        try {
+
+            var updateScheduleCommand = UpdateScheduleCommandFromResourceAssembler.toCommandFromResource(scheduleId, resource);
+
+
+            scheduleCommandServiceImpl.handle(updateScheduleCommand);
+
+
+            var getScheduleByIdQuery = new GetScheduleByIdQuery(scheduleId);
+            var updatedSchedule = scheduleQueryServiceImpl.handle(getScheduleByIdQuery);
+
+
+            if (updatedSchedule.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+
+            var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(updatedSchedule.get());
+
+
+            return ResponseEntity.ok(scheduleResource);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -1,7 +1,6 @@
-package com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands;
+package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources;
 
-public record UpdateScheduleCommand(
-        Long scheduleId,
+public record UpdateScheduleResource(
         double waterAmount,
         double pressure,
         double sprinklerRadius,
@@ -10,4 +9,5 @@ public record UpdateScheduleCommand(
         String setTime,
         int angle,
         boolean isAutomatic
-) { }
+) {
+}

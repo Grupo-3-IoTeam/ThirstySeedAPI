@@ -112,6 +112,7 @@ public class NodeController {
         var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
         return ResponseEntity.ok(nodeResource);
     }
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{nodeId}")
     public ResponseEntity<Void> updateNode(@PathVariable Long nodeId,  @RequestBody UpdateNodeResource resource) {
         try {
@@ -125,6 +126,7 @@ public class NodeController {
 
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{nodeId}")
     public ResponseEntity<Void> deleteNode(@PathVariable Long nodeId) {
         try {
