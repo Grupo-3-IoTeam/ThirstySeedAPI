@@ -105,6 +105,7 @@ public class PlotController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{plotId}")
     public ResponseEntity<Void> updatePlot(@PathVariable Long plotId, @RequestBody UpdatePlotResource resource) {
         try {
@@ -116,6 +117,7 @@ public class PlotController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{plotId}")
     public ResponseEntity<Void> deleteNode(@PathVariable Long plotId) {
         try {
