@@ -2,10 +2,9 @@ package com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservice
 
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.aggregates.User;
 import com.IoTeam.ThirstySeedAPI.iam.infrastructure.persistence.jpa.repositories.UserRepository;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Node;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Plot;
-import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.CreatePlotCommand;
-import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.NotSupplyPlotCommand;
-import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.SupplyPlotCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.*;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.commands.PlotCommandService;
 import com.IoTeam.ThirstySeedAPI.irrigation.infrastructure.persistence.jpa.repositories.PlotRepository;
@@ -64,5 +63,30 @@ public class PlotCommandServiceImpl implements PlotCommandService {
                     plotRepository.save(plot);
                     return plot.getId();
                 }).orElseThrow(() -> new RuntimeException("Plot not found"));
+    }
+    @Override
+    public void updatePlot(UpdatePlotCommand command) {
+        var plotOptional = plotRepository.findById(command.plotId());
+        if (plotOptional.isEmpty()) {
+            throw new IllegalArgumentException("Plot with ID " + command.plotId() + " does not exist.");
+        }
+
+        Plot plot = plotOptional.get();
+
+        plot.setName(new Name(command.name()));
+        plot.setLocation(new Location(command.location()));
+        plot.setExtension(new Extension(command.extension()));
+        plot.setSize(new Size(command.size()));
+        plot.setImageUrl(new ImageUrl(command.imageUrl()));
+
+        plotRepository.save(plot);
+    }
+
+    @Override
+    public void deletePlot(DeletePlotCommand command) {
+        if (!plotRepository.existsById(command.plotId())) {
+            throw new IllegalArgumentException("Plot with ID " + command.plotId() + " does not exist.");
+        }
+        plotRepository.deleteById(command.plotId());
     }
 }
