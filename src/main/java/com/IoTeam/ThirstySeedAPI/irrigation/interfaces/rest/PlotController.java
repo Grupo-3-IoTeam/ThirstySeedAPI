@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class PlotController {
         this.plotCommandServiceImpl = plotCommandServiceImpl;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<PlotResource> createPlot(@RequestBody CreatePlotResource resource) {
         try {
@@ -54,6 +56,7 @@ public class PlotController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{plotId}")
     public ResponseEntity<PlotResource> getPlotById(@PathVariable Long plotId) {
         var getPlotByIdQuery = new GetPlotByIdQuery(plotId);
@@ -63,6 +66,7 @@ public class PlotController {
         return ResponseEntity.ok(plotResource);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<PlotResource>> getPlots() {
         var listPlots = plotQueryServiceImpl.findAllPlots();
@@ -72,7 +76,7 @@ public class PlotController {
         return ResponseEntity.ok(plotResources);
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{plotId}/stocks")
     public ResponseEntity<Void> supplyPlot(@PathVariable Long plotId) {
         try {
@@ -84,7 +88,7 @@ public class PlotController {
         }
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{plotId}/outages")
     public ResponseEntity<Void> notSupplyPlot(@PathVariable Long plotId) {
         try {

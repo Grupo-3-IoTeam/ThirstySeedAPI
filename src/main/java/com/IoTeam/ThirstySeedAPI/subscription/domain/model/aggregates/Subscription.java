@@ -9,32 +9,24 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @Getter
-    @Setter
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Getter
-    @Setter
     private PlanType planType;
 
     @Embedded
-    @Getter
-    @Setter
     private NodeCount nodeCount;
 
     @Embedded
-    @Getter
-    @Setter
     private ValidationCode validationCode;
 
-    @Getter
-    @Setter
     private boolean active;
 
     public Subscription(User user, PlanType planType, int nodeCount, String validationCode) {

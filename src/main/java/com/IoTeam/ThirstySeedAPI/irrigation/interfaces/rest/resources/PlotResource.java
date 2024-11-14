@@ -4,6 +4,7 @@ import java.util.Date;
 
 public record PlotResource(
         Long id,
+        Long userId,
         String name,
         String location,
         Integer extension,
