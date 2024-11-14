@@ -1,5 +1,6 @@
 package com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates;
 
+import com.IoTeam.ThirstySeedAPI.iam.domain.model.aggregates.User;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.valueobjects.*;
 
 import jakarta.persistence.*;
@@ -19,6 +20,12 @@ public class Plot extends AbstractAggregateRoot<Plot> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @Getter
+    @Setter
+    private User user;
 
     @Setter
     @Getter
@@ -57,7 +64,8 @@ public class Plot extends AbstractAggregateRoot<Plot> {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Plot(Name name, Location location, Extension extension, Size size, PlotStatus plotStatus, ImageUrl imageUrl) {
+    public Plot(User user, Name name, Location location, Extension extension, Size size, PlotStatus plotStatus, ImageUrl imageUrl) {
+        this.user = user;
         this.name = name;
         this.location = location;
         this.extension = extension;
@@ -73,5 +81,4 @@ public class Plot extends AbstractAggregateRoot<Plot> {
     public void not_supply() {
         this.plotStatus = PlotStatus.NOT_SUPPLIED;
     }
-
 }

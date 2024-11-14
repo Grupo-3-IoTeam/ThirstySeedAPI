@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class NodeController {
         this.nodeCommandServiceImpl = nodeCommandServiceImpl;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<NodeResource> createNode(@RequestBody CreateNodeResource resource) {
         try {
@@ -54,6 +56,7 @@ public class NodeController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{nodeId}")
     public ResponseEntity<NodeResource> getNodeById(@PathVariable Long nodeId) {
         var getNodeByIdQuery = new GetNodeByIdQuery(nodeId);
@@ -63,6 +66,7 @@ public class NodeController {
         return ResponseEntity.ok(nodeResource);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<NodeResource>> getNodes() {
         var listNodes = nodeQueryServiceImpl.findAllNodes();
@@ -71,6 +75,8 @@ public class NodeController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(nodeResources);
     }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/plot/{plotId}")
     public ResponseEntity<List<NodeResource>> getNodeByPlotId(@PathVariable Long plotId) {
         var getNodeByPlotIdQuery = new GetNodeByPlotIdQuery(plotId);
@@ -84,6 +90,7 @@ public class NodeController {
         return ResponseEntity.ok(nodeResources);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{nodeId}/moisture")
     public ResponseEntity<Void> updateNodeMoisture(@PathVariable Long nodeId, @RequestBody UpdateNodeMoistureResource resource) {
         try {
@@ -95,6 +102,8 @@ public class NodeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/productcode/{productcode}")
     public ResponseEntity<NodeResource> getNodeByProductCodeQuery(@PathVariable String productcode) {
         var getNodeByProductCodeQuery = new GetNodeByProductCodeQuery(productcode);

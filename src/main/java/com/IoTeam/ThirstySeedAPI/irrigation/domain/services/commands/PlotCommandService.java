@@ -7,8 +7,6 @@ import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.SupplyPlotComm
 
 public interface PlotCommandService {
     Long createPlot(CreatePlotCommand command);
-
     Long updateToPlotSupply(SupplyPlotCommand command);
     Long updateToPlotNotSupply(NotSupplyPlotCommand command);
-
 }

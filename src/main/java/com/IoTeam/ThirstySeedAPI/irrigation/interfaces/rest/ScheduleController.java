@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class ScheduleController {
         this.scheduleQueryServiceImpl = scheduleQueryServiceImpl;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<ScheduleResource> createSchedule(@RequestBody CreateScheduleResource resource) {
         try {
@@ -54,6 +56,7 @@ public class ScheduleController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResource> getScheduleById(@PathVariable Long scheduleId) {
         var getScheduleByIdQuery = new GetScheduleByIdQuery(scheduleId);
@@ -63,6 +66,7 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleResource);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<ScheduleResource>> getAllSchedules() {
         var query = new GetAllSchedulesQuery();
@@ -73,6 +77,7 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleResources);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
         try {
