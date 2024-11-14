@@ -2,15 +2,14 @@ package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest;
 
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices.NodeCommandServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.NodeQueryServiceImpl;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteNodeCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteScheduleCommand;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.UpdateNodeCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByPlotIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByProductCodeQuery;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateNodeResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.NodeResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.UpdateNodeMoistureResource;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.CreateNodeCommandFromResourceAssembler;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.NodeResourceFromEntityAssembler;
-import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.UpdateNodeMoistureCommandFromResourceAssembler;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.*;
+import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -103,5 +102,29 @@ public class NodeController {
         if (node.isEmpty()) return ResponseEntity.badRequest().build();
         var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
         return ResponseEntity.ok(nodeResource);
+    }
+    @PutMapping("/{nodeId}")
+    public ResponseEntity<Void> updateNode(@PathVariable Long nodeId,  @RequestBody UpdateNodeResource resource) {
+        try {
+            var updateNodeCommand = UpdateNodeCommandFromResourceAssembler.toCommand(nodeId,resource);
+            nodeCommandServiceImpl.updateNode(updateNodeCommand);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    @DeleteMapping("/{nodeId}")
+    public ResponseEntity<Void> deleteNode(@PathVariable Long nodeId) {
+        try {
+            DeleteNodeCommand deleteNodeCommand = new DeleteNodeCommand(nodeId);
+            nodeCommandServiceImpl.deleteNode(deleteNodeCommand);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
