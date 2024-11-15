@@ -1,7 +1,7 @@
-package com.IoTeam.ThirstySeedAPI.subscription.rest.transform;
+package com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.transform;
 
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.aggregates.Subscription;
-import com.IoTeam.ThirstySeedAPI.subscription.rest.resources.SubscriptionResource;
+import com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.resources.SubscriptionResource;
 
 public class SubscriptionResourceFromEntityAssembler {
     public static SubscriptionResource toResourceFromEntity(Subscription entity) {

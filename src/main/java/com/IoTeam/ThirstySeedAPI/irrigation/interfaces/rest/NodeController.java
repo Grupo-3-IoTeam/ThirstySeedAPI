@@ -3,8 +3,6 @@ package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest;
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices.NodeCommandServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.NodeQueryServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteNodeCommand;
-import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteScheduleCommand;
-import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.UpdateNodeCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByPlotIdQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetNodeByProductCodeQuery;
@@ -32,7 +30,6 @@ public class NodeController {
         this.nodeCommandServiceImpl = nodeCommandServiceImpl;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<NodeResource> createNode(@RequestBody CreateNodeResource resource) {
         try {
@@ -56,7 +53,6 @@ public class NodeController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{nodeId}")
     public ResponseEntity<NodeResource> getNodeById(@PathVariable Long nodeId) {
         var getNodeByIdQuery = new GetNodeByIdQuery(nodeId);
@@ -66,7 +62,6 @@ public class NodeController {
         return ResponseEntity.ok(nodeResource);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<NodeResource>> getNodes() {
         var listNodes = nodeQueryServiceImpl.findAllNodes();
@@ -76,7 +71,6 @@ public class NodeController {
         return ResponseEntity.ok(nodeResources);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/plot/{plotId}")
     public ResponseEntity<List<NodeResource>> getNodeByPlotId(@PathVariable Long plotId) {
         var getNodeByPlotIdQuery = new GetNodeByPlotIdQuery(plotId);
@@ -90,7 +84,6 @@ public class NodeController {
         return ResponseEntity.ok(nodeResources);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{nodeId}/moisture")
     public ResponseEntity<Void> updateNodeMoisture(@PathVariable Long nodeId, @RequestBody UpdateNodeMoistureResource resource) {
         try {
@@ -103,7 +96,6 @@ public class NodeController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/productcode/{productcode}")
     public ResponseEntity<NodeResource> getNodeByProductCodeQuery(@PathVariable String productcode) {
         var getNodeByProductCodeQuery = new GetNodeByProductCodeQuery(productcode);
@@ -112,7 +104,7 @@ public class NodeController {
         var nodeResource = NodeResourceFromEntityAssembler.toResourceFromEntity(node.get());
         return ResponseEntity.ok(nodeResource);
     }
-    @PreAuthorize("isAuthenticated()")
+
     @PutMapping("/{nodeId}")
     public ResponseEntity<Void> updateNode(@PathVariable Long nodeId,  @RequestBody UpdateNodeResource resource) {
         try {

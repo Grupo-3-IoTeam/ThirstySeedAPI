@@ -41,7 +41,6 @@ public class ProfilesController {
      * @param resource the resource containing the data to create the Profile
      * @return the created Profile
      */
-    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
         var createProfileCommand = CreateProfileCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -56,7 +55,6 @@ public class ProfilesController {
      * @param profileId the id of the Profile to get
      * @return the Profile resource associated to given Profile id
      */
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{profileId}")
     public ResponseEntity<ProfileResource> getProfileById(@PathVariable Long profileId) {
         var getProfileByIdQuery = new GetProfileByIdQuery(profileId);
@@ -70,7 +68,6 @@ public class ProfilesController {
      * Gets all the Profiles
      * @return a list of all the Profile resources currently stored
      */
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<ProfileResource>> getAllProfiles() {
         var getAllProfilesQuery = new GetAllProfilesQuery();

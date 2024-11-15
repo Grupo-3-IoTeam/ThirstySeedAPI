@@ -105,7 +105,6 @@ public class WebSecurityConfiguration {
         source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }
-
     /**
      * Creates the security filter chain and configures http security, including CORS, CSRF, session management,
      * authentication provider, and authorization.
@@ -122,6 +121,10 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/authentication/**",
+                                "/api/v1/profiles",
+                                "/api/v1/subscriptions",
+                                "/api/v1/node",
+                                "/api/v1/schedules",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",

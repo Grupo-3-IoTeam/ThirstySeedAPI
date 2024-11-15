@@ -1,4 +1,4 @@
-package com.IoTeam.ThirstySeedAPI.subscription.rest.resources;
+package com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.resources;
 
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.valueobjects.PlanType;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.valueobjects.NodeCount;

@@ -1,4 +1,4 @@
-package com.IoTeam.ThirstySeedAPI.subscription.rest.resources;
+package com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.resources;
 
 public record SubscriptionResource(
         Long id,

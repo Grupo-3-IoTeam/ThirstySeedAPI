@@ -1,12 +1,12 @@
-package com.IoTeam.ThirstySeedAPI.subscription.rest;
+package com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest;
 
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.queries.GetSubscriptionByUserIdQuery;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.services.SubscriptionCommandService;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.services.SubscriptionQueryService;
-import com.IoTeam.ThirstySeedAPI.subscription.rest.resources.CreateSubscriptionResource;
-import com.IoTeam.ThirstySeedAPI.subscription.rest.resources.SubscriptionResource;
-import com.IoTeam.ThirstySeedAPI.subscription.rest.transform.CreateSubscriptionCommandFromResourceAssembler;
-import com.IoTeam.ThirstySeedAPI.subscription.rest.transform.SubscriptionResourceFromEntityAssembler;
+import com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.resources.CreateSubscriptionResource;
+import com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.resources.SubscriptionResource;
+import com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.transform.CreateSubscriptionCommandFromResourceAssembler;
+import com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest.transform.SubscriptionResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +32,6 @@ public class SubscriptionsController {
      * @param resource the resource containing the data to create the Subscription
      * @return the created Subscription
      */
-    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<SubscriptionResource> createSubscription(@RequestBody CreateSubscriptionResource resource) {
         var createSubscriptionCommand = CreateSubscriptionCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -47,7 +46,6 @@ public class SubscriptionsController {
      * @param userId the user ID of the Subscription to get
      * @return the Subscription resource associated with the given user ID
      */
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/user/{userId}")
     public ResponseEntity<SubscriptionResource> getSubscriptionByUserId(@PathVariable Long userId) {
         var query = new GetSubscriptionByUserIdQuery(userId);
