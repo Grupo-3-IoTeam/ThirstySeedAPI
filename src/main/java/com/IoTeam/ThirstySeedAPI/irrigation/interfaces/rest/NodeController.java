@@ -118,7 +118,6 @@ public class NodeController {
 
     }
 
-    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{nodeId}")
     public ResponseEntity<Void> deleteNode(@PathVariable Long nodeId) {
         try {

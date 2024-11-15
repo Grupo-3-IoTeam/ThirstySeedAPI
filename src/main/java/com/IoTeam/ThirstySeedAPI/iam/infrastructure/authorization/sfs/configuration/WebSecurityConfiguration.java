@@ -123,6 +123,7 @@ public class WebSecurityConfiguration {
                                 "/api/v1/authentication/**",
                                 "/api/v1/profiles",
                                 "/api/v1/subscriptions",
+                                "/api/v1/plot",
                                 "/api/v1/node",
                                 "/api/v1/schedules",
                                 "/v3/api-docs/**",
