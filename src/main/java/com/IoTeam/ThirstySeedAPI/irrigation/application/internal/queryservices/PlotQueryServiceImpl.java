@@ -27,4 +27,9 @@ public class PlotQueryServiceImpl implements PlotQueryService {
     public List<Plot> findAllPlots(){
         return plotRepository.findAll();
     }
+
+    @Override
+    public List<Plot> findPlotsByUserId(Long userId) {
+        return plotRepository.findByUserId(userId);
+    }
 }

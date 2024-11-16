@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PlotQueryService {
     Optional<Plot> findPlotById(GetPlotByIdQuery query);
     List<Plot> findAllPlots();
+    List<Plot> findPlotsByUserId(Long userId);
 }
