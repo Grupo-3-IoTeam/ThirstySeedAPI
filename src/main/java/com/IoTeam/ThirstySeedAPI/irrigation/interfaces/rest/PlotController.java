@@ -74,6 +74,15 @@ public class PlotController {
         return ResponseEntity.ok(plotResources);
     }
 
+    @GetMapping("user/{userId}")
+    public ResponseEntity<List<PlotResource>> getPlotsByUserId(@PathVariable Long userId) {
+        var listPlots = plotQueryServiceImpl.findPlotsByUserId(userId);
+        List<PlotResource> plotResources = listPlots.stream()
+                .map(PlotResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(plotResources);
+    }
+
     @PutMapping("/{plotId}/stocks")
     public ResponseEntity<Void> supplyPlot(@PathVariable Long plotId) {
         try {
