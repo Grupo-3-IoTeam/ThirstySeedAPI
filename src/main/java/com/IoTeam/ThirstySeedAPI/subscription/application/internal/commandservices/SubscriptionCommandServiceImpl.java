@@ -4,6 +4,7 @@ import com.IoTeam.ThirstySeedAPI.iam.domain.model.aggregates.User;
 import com.IoTeam.ThirstySeedAPI.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.aggregates.Subscription;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.commands.CreateSubscriptionCommand;
+import com.IoTeam.ThirstySeedAPI.subscription.domain.model.commands.DeleteSubscriptionByIdCommand;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.services.SubscriptionCommandService;
 import com.IoTeam.ThirstySeedAPI.subscription.infrastructure.persistence.jpa.repositories.SubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,17 @@ public class SubscriptionCommandServiceImpl implements SubscriptionCommandServic
         // Guardar la suscripción en el repositorio
         subscriptionRepository.save(subscription);
         return Optional.of(subscription);
+    }
+
+    @Override
+    public void handle(DeleteSubscriptionByIdCommand command) {
+        if (!subscriptionRepository.existsById(command.subscriptionId())) {
+            throw new IllegalArgumentException("Subscription with ID " + command.subscriptionId() + " does not exist.");
+        }
+        try {
+            subscriptionRepository.deleteById(command.subscriptionId());
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting subscription with ID " + command.subscriptionId());
+        }
     }
 }

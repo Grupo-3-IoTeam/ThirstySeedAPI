@@ -1,5 +1,6 @@
 package com.IoTeam.ThirstySeedAPI.profile.interfaces.rest;
 
+import com.IoTeam.ThirstySeedAPI.profile.domain.model.commands.DeleteProfileByIdCommand;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetAllProfilesQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByIdQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.services.ProfileCommandService;
@@ -73,5 +74,17 @@ public class ProfilesController {
         var profiles = profileQueryService.handle(getAllProfilesQuery);
         var profileResources = profiles.stream().map(ProfileResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
         return ResponseEntity.ok(profileResources);
+    }
+
+    /**
+     * Deletes a Profile by its id
+     * @param profileId the id of the Profile to delete
+     * @return a response entity with no content
+     */
+    @DeleteMapping("/{profileId}")
+    public ResponseEntity<Void> deleteProfileById(@PathVariable Long profileId) {
+        var deleteProfileByIdCommand = new DeleteProfileByIdCommand(profileId);
+        profileCommandService.handle(deleteProfileByIdCommand);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,7 @@ package com.IoTeam.ThirstySeedAPI.iam.application.internal.commandservices;
 import com.IoTeam.ThirstySeedAPI.iam.application.internal.outboundservices.hashing.HashingService;
 import com.IoTeam.ThirstySeedAPI.iam.application.internal.outboundservices.tokens.TokenService;
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.aggregates.User;
+import com.IoTeam.ThirstySeedAPI.iam.domain.model.commands.DeleteUserByIdCommand;
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.commands.SignInCommand;
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.commands.SignUpCommand;
 import com.IoTeam.ThirstySeedAPI.iam.domain.services.UserCommandService;
@@ -72,5 +73,24 @@ public class UserCommandServiceImpl implements UserCommandService {
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         userRepository.save(user);
         return userRepository.findByUsername(command.username());
+    }
+    /**
+     * Handle the delete user command
+     * <p>
+     *     This method handles the {@link DeleteUserByIdCommand} command and deletes the user.
+     * </p>
+     * @param command the delete user command containing the user id
+     * @throws IllegalArgumentException if the user does not exist or an error occurs while deleting the user
+     */
+    @Override
+    public void handle(DeleteUserByIdCommand command) {
+        if (!userRepository.existsById(command.userId())) {
+            throw new IllegalArgumentException("User does not exist");
+        }
+        try {
+            userRepository.deleteById(command.userId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting user: " + e.getMessage());
+        }
     }
 }
