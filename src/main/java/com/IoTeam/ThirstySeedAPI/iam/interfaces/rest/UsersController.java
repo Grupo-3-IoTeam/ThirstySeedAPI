@@ -1,17 +1,16 @@
 package com.IoTeam.ThirstySeedAPI.iam.interfaces.rest;
 
+import com.IoTeam.ThirstySeedAPI.iam.domain.model.commands.DeleteUserByIdCommand;
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.queries.GetAllUsersQuery;
 import com.IoTeam.ThirstySeedAPI.iam.domain.model.queries.GetUserByIdQuery;
+import com.IoTeam.ThirstySeedAPI.iam.domain.services.UserCommandService;
 import com.IoTeam.ThirstySeedAPI.iam.domain.services.UserQueryService;
 import com.IoTeam.ThirstySeedAPI.iam.interfaces.rest.resources.UserResource;
 import com.IoTeam.ThirstySeedAPI.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +25,11 @@ import java.util.List;
 @Tag(name = "Users", description = "User Management Endpoints")
 public class UsersController {
     private final UserQueryService userQueryService;
+    private final UserCommandService userCommandService;
 
-    public UsersController(UserQueryService userQueryService) {
+    public UsersController(UserQueryService userQueryService, UserCommandService userCommandService) {
         this.userQueryService = userQueryService;
+        this.userCommandService = userCommandService;
     }
 
     /**
@@ -60,5 +61,12 @@ public class UsersController {
         }
         var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return ResponseEntity.ok(userResource);
+    }
+
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable Long userId) {
+        var deleteUserByIdCommand = new DeleteUserByIdCommand(userId);
+        userCommandService.handle(deleteUserByIdCommand);
+        return ResponseEntity.noContent().build();
     }
 }

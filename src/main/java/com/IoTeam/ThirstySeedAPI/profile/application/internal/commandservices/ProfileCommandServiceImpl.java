@@ -5,6 +5,7 @@ import com.IoTeam.ThirstySeedAPI.iam.infrastructure.persistence.jpa.repositories
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.aggregates.Plot;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.aggregates.Profile;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.commands.CreateProfileCommand;
+import com.IoTeam.ThirstySeedAPI.profile.domain.model.commands.DeleteProfileByIdCommand;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.valueobjects.EmailAddress;
 import com.IoTeam.ThirstySeedAPI.profile.domain.services.ProfileCommandService;
 import com.IoTeam.ThirstySeedAPI.profile.infrastructure.persistence.jpa.repositories.ProfileRepository;
@@ -38,5 +39,17 @@ public class ProfileCommandServiceImpl implements ProfileCommandService {
         var profile = new Profile(user, command);
         profileRepository.save(profile);
         return Optional.of(profile);
+    }
+
+    @Override
+    public void handle(DeleteProfileByIdCommand command) {
+        if (!profileRepository.existsById(command.profileId())) {
+            throw new IllegalArgumentException("Profile with ID " + command.profileId() + " does not exist.");
+        }
+        try {
+            profileRepository.deleteById(command.profileId());
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting profile with ID " + command.profileId());
+        }
     }
 }

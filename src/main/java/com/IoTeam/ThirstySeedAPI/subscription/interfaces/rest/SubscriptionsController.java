@@ -1,5 +1,6 @@
 package com.IoTeam.ThirstySeedAPI.subscription.interfaces.rest;
 
+import com.IoTeam.ThirstySeedAPI.subscription.domain.model.commands.DeleteSubscriptionByIdCommand;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.model.queries.GetSubscriptionByUserIdQuery;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.services.SubscriptionCommandService;
 import com.IoTeam.ThirstySeedAPI.subscription.domain.services.SubscriptionQueryService;
@@ -52,5 +53,17 @@ public class SubscriptionsController {
         if (subscription.isEmpty()) return ResponseEntity.badRequest().build();
         var subscriptionResource = SubscriptionResourceFromEntityAssembler.toResourceFromEntity(subscription.get());
         return ResponseEntity.ok(subscriptionResource);
+    }
+
+    /**
+     * Deletes a Subscription by its ID
+     * @param subscriptionId the ID of the Subscription to delete
+     * @return a response entity with the result of the operation
+     */
+    @DeleteMapping("/{subscriptionId}")
+    public ResponseEntity<Void> deleteSubscriptionById(@PathVariable Long subscriptionId) {
+         var deleteSubscriptionByIdCommand = new DeleteSubscriptionByIdCommand(subscriptionId);
+         subscriptionCommandService.handle(deleteSubscriptionByIdCommand);
+         return ResponseEntity.noContent().build();
     }
 }
