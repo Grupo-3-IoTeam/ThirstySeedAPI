@@ -121,6 +121,8 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/authentication/**",
+                                "/api/v1/users/**",
+                                "/api/v1/roles/**",
                                 "/api/v1/profiles/**",
                                 "/api/v1/subscriptions/**",
                                 "/api/v1/plot/**",
