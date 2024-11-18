@@ -6,6 +6,7 @@ import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.ScheduleRe
 public class ScheduleResourceFromEntityAssembler {
     public static ScheduleResource toResourceFromEntity(Schedule entity) {
         return new ScheduleResource(
+                entity.getId(),
                 entity.getPlot().getId(),
                 entity.getWaterAmount().waterAmount(),
                 entity.getPressure().pressureValue(),            // Access the pressure field in Pressure
