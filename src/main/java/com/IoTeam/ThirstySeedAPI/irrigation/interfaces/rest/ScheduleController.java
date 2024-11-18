@@ -1,7 +1,5 @@
 package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest;
 
-import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.commandservices.ScheduleCommandServiceImpl;
-import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.ScheduleQueryServiceImpl;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteScheduleCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetAllSchedulesQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetScheduleByIdQuery;
