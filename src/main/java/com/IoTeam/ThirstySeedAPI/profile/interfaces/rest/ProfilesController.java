@@ -3,6 +3,7 @@ package com.IoTeam.ThirstySeedAPI.profile.interfaces.rest;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.commands.DeleteProfileByIdCommand;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetAllProfilesQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByIdQuery;
+import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByUserIdQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.services.ProfileCommandService;
 import com.IoTeam.ThirstySeedAPI.profile.domain.services.ProfileQueryService;
 import com.IoTeam.ThirstySeedAPI.profile.interfaces.rest.resources.CreateProfileResource;
@@ -86,5 +87,19 @@ public class ProfilesController {
         var deleteProfileByIdCommand = new DeleteProfileByIdCommand(profileId);
         profileCommandService.handle(deleteProfileByIdCommand);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Gets a Profile by its user id
+     * @param userId the user id of the Profile to get
+     * @return the Profile resource associated to given user id
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ProfileResource> getProfileByUserId(@PathVariable Long userId) {
+        var getProfileByUserIdQuery = new GetProfileByUserIdQuery(userId);
+        var profile = profileQueryService.handle(getProfileByUserIdQuery);
+        if (profile.isEmpty()) return ResponseEntity.badRequest().build();
+        var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(profile.get());
+        return ResponseEntity.ok(profileResource);
     }
 }
