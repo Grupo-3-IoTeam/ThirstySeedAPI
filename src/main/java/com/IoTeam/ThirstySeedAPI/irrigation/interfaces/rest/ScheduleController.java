@@ -5,6 +5,10 @@ import com.IoTeam.ThirstySeedAPI.irrigation.application.internal.queryservices.S
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.commands.DeleteScheduleCommand;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetAllSchedulesQuery;
 import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetScheduleByIdQuery;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetSchedulesByPlotIdQuery;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.model.queries.GetSchedulesByUserIdQuery;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.commands.ScheduleCommandService;
+import com.IoTeam.ThirstySeedAPI.irrigation.domain.services.queries.ScheduleQueryService;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.CreateScheduleResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.ScheduleResource;
 import com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources.UpdateScheduleResource;
@@ -25,24 +29,25 @@ import java.util.stream.Collectors;
 @Tag(name = "Schedules", description = "Schedule Management Endpoints")
 public class ScheduleController {
 
-    private final ScheduleCommandServiceImpl scheduleCommandServiceImpl;
-    private final ScheduleQueryServiceImpl scheduleQueryServiceImpl;
+    private final ScheduleCommandService scheduleCommandService;
+    private final ScheduleQueryService scheduleQueryService;
 
-    public ScheduleController(ScheduleCommandServiceImpl scheduleCommandServiceImpl, ScheduleQueryServiceImpl scheduleQueryServiceImpl) {
-        this.scheduleCommandServiceImpl = scheduleCommandServiceImpl;
-        this.scheduleQueryServiceImpl = scheduleQueryServiceImpl;
+    public ScheduleController(ScheduleCommandService scheduleCommandService, ScheduleQueryService scheduleQueryService) {
+        this.scheduleCommandService = scheduleCommandService;
+        this.scheduleQueryService = scheduleQueryService;
     }
+
 
     @PostMapping
     public ResponseEntity<ScheduleResource> createSchedule(@RequestBody CreateScheduleResource resource) {
         try {
             var createScheduleCommand = CreateScheduleCommandFromResourceAssembler.toCommandFromResource(resource);
-            var scheduleId = scheduleCommandServiceImpl.handle(createScheduleCommand);
+            var scheduleId = scheduleCommandService.handle(createScheduleCommand);
             if (scheduleId == 0L) {
                 return ResponseEntity.badRequest().build();
             }
             var getScheduleByIdQuery = new GetScheduleByIdQuery(scheduleId);
-            var schedule = scheduleQueryServiceImpl.handle(getScheduleByIdQuery);
+            var schedule = scheduleQueryService.handle(getScheduleByIdQuery);
 
             if (schedule.isEmpty()) {
                 return ResponseEntity.badRequest().build();
@@ -59,7 +64,7 @@ public class ScheduleController {
     @GetMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResource> getScheduleById(@PathVariable Long scheduleId) {
         var getScheduleByIdQuery = new GetScheduleByIdQuery(scheduleId);
-        var schedule = scheduleQueryServiceImpl.handle(getScheduleByIdQuery);
+        var schedule = scheduleQueryService.handle(getScheduleByIdQuery);
         if (schedule.isEmpty()) return ResponseEntity.badRequest().build();
         var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(schedule.get());
         return ResponseEntity.ok(scheduleResource);
@@ -68,7 +73,7 @@ public class ScheduleController {
     @GetMapping
     public ResponseEntity<List<ScheduleResource>> getAllSchedules() {
         var query = new GetAllSchedulesQuery();
-        var listSchedules = scheduleQueryServiceImpl.handle(query);
+        var listSchedules = scheduleQueryService.handle(query);
         List<ScheduleResource> scheduleResources = listSchedules.stream()
                 .map(ScheduleResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
@@ -79,7 +84,7 @@ public class ScheduleController {
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
         try {
             var deleteScheduleCommand = new DeleteScheduleCommand(scheduleId);
-            scheduleCommandServiceImpl.handle(deleteScheduleCommand);
+            scheduleCommandService.handle(deleteScheduleCommand);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,12 +98,44 @@ public class ScheduleController {
             @RequestBody UpdateScheduleResource resource) {
         try {
             var updateScheduleCommand = UpdateScheduleCommandFromResourceAssembler.toCommandFromResource(scheduleId, resource);
-            scheduleCommandServiceImpl.handle(updateScheduleCommand);
+            scheduleCommandService.handle(updateScheduleCommand);
             var getScheduleByIdQuery = new GetScheduleByIdQuery(scheduleId);
-            var schedule = scheduleQueryServiceImpl.handle(getScheduleByIdQuery);
+            var schedule = scheduleQueryService.handle(getScheduleByIdQuery);
             if (schedule.isEmpty()) return ResponseEntity.badRequest().build();
             var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(schedule.get());
             return ResponseEntity.ok(scheduleResource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Nuevo endpoint para obtener los horarios por plotId
+    @GetMapping("/plot/{plotId}")
+    public ResponseEntity<List<ScheduleResource>> getSchedulesByPlotId(@PathVariable Long plotId) {
+        try {
+            var query = new GetSchedulesByPlotIdQuery(plotId);
+            var listSchedules = scheduleQueryService.handle(query);
+            List<ScheduleResource> scheduleResources = listSchedules.stream()
+                    .map(ScheduleResourceFromEntityAssembler::toResourceFromEntity)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(scheduleResources);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Nuevo endpoint para obtener los horarios por userId
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ScheduleResource>> getSchedulesByUserId(@PathVariable Long userId) {
+        try {
+            var query = new GetSchedulesByUserIdQuery(userId);
+            var listSchedules = scheduleQueryService.handle(query);
+            List<ScheduleResource> scheduleResources = listSchedules.stream()
+                    .map(ScheduleResourceFromEntityAssembler::toResourceFromEntity)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(scheduleResources);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
