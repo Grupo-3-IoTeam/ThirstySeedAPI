@@ -1,6 +1,7 @@
 package com.IoTeam.ThirstySeedAPI.irrigation.interfaces.rest.resources;
 
 public record ScheduleResource(
+        Long id,
         Long plotId,
         double waterAmount,
         double pressure,
