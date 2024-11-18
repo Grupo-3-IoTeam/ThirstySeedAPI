@@ -4,6 +4,7 @@ import com.IoTeam.ThirstySeedAPI.profile.domain.model.aggregates.Profile;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetAllProfilesQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByEmailQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByIdQuery;
+import com.IoTeam.ThirstySeedAPI.profile.domain.model.queries.GetProfileByUserIdQuery;
 import com.IoTeam.ThirstySeedAPI.profile.domain.services.ProfileQueryService;
 import com.IoTeam.ThirstySeedAPI.profile.infrastructure.persistence.jpa.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,10 @@ public class ProfileQueryServiceImpl implements ProfileQueryService {
     @Override
     public List<Profile> handle(GetAllProfilesQuery query) {
         return profileRepository.findAll();
+    }
+
+    @Override
+    public Optional<Profile> handle(GetProfileByUserIdQuery query) {
+        return profileRepository.findByUserId(query.userId());
     }
 }
